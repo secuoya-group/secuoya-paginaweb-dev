@@ -13,7 +13,7 @@ function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [chatAbierto, setChatAbierto] = useState(false);
   const location = useLocation();
-  const isCourseRoute = location.pathname === '/curso-ia';
+  const isCourseRoute = location.pathname === '/#/curso-ia';
  
   useEffect(() => {
     const timer = setTimeout(() => {
