@@ -10,7 +10,7 @@ export default function Header() {
     { name: 'Casos de Éxito', href: '#casos-exito' },
     { name: 'Nosotros', href: '#nosotros' },
     { name: 'Contacto', href: '#contacto' },
-    { name: 'Curso IA', href: '/curso-ia' },
+    { name: 'Curso IA', href: '#/curso-ia' },
   ];
 
   return (
