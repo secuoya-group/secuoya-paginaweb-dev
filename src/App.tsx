@@ -7,11 +7,14 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CourseRegistration from './components/CourseRegistration';
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [chatAbierto, setChatAbierto] = useState(false);
+   const location = useLocation();
   const isCourseRoute = location.pathname === '/curso-ia';
+  
 
    if (isCourseRoute) {
     return <CourseRegistration />;
