@@ -1,7 +1,8 @@
 import { ArrowRight, CheckCircle, Brain, Users, Award } from 'lucide-react';
 import { useState } from 'react';
-import logoActual from './assets/logoActual.png';
-import HombreGestionando from './assets/HombreGestionando.jpg';
+import logoActual from '../assets/logoActual.png';
+import HombreGestionando from '../assets/HombreGestionando.jpg';
+import { Link } from 'react-router-dom';
 
 export default function CourseRegistration() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ export default function CourseRegistration() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -22,9 +25,32 @@ export default function CourseRegistration() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Course registration submitted:', formData);
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
+
+  try {
+    const response = await fetch('https://n8n.secu-ia.com/webhook/secuoya-forms-dev', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre: formData.firstName,
+        apellido: formData.lastName,
+        email: formData.email,
+        telefono: formData.phone,
+        empresa: formData.company,
+        pais: formData.country,
+        fecha_registro: new Date().toISOString(),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al enviar el formulario');
+    }
+
     setSubmitted(true);
     setTimeout(() => {
       setFormData({
@@ -36,8 +62,14 @@ export default function CourseRegistration() {
         country: '',
       });
       setSubmitted(false);
-    }, 3000);
-  };
+    }, 4000);
+
+  } catch (err) {
+    setError('Hubo un problema al enviar tu registro. Por favor intenta de nuevo.');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const benefits = [
     {
@@ -104,19 +136,19 @@ export default function CourseRegistration() {
         <header className="fixed top-0 left-0 right-0 bg-gradient-to-b from-gray-950 to-transparent z-50">
           <nav className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center justify-between">
-              <a href="./" className="flex items-center gap-2">
-                <img
-                  src={logoActual}
-                  alt="Secuoya"
-                  className="h-12 w-auto"
-                />
-              </a>
-              <a
-                href="/"
-                className="text-blue-400 hover:text-blue-300 transition-colors duration-300 font-medium"
-              >
-                Volver a inicio
-              </a>
+              
+
+
+                <Link to="/" className="flex items-center gap-2">
+                  <img src={logoActual} alt="Secuoya" className="h-12 w-auto" />
+                </Link>
+
+                <Link
+                  to="/"
+                  className="text-blue-400 hover:text-blue-300 transition-colors duration-300 font-medium"
+                >
+                  Volver a inicio
+                </Link>
             </div>
           </nav>
         </header>
@@ -323,13 +355,32 @@ export default function CourseRegistration() {
                       </select>
                     </div>
 
-                    <button
-                      type="submit"
-                      className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
-                    >
-                      Registrarme en el Curso
-                      <ArrowRight size={20} />
-                    </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                      >
+                        {isLoading ? (
+                          <>
+                            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                            </svg>
+                            Enviando...
+                          </>
+                        ) : (
+                          <>
+                            Registrarme en el Curso
+                            <ArrowRight size={20} />
+                          </>
+                        )}
+                      </button>
+
+                      {error && (
+                        <p className="text-center text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg py-3 px-4">
+                          {error}
+                        </p>
+                      )}
 
                     <p className="text-center text-sm text-gray-500">
                       Al registrarte, aceptas recibir información sobre el curso
