@@ -42,7 +42,7 @@ function App() {
       <div className="min-h-screen bg-white flex items-center justify-center overflow-hidden">
         <div className="w-96 opacity-100 animate-logo-fade-out">
           <img
-            src={`${import.meta.env.BASE_URL}logoAct.png`}
+            src={`${import.meta.env.BASE_URL}logoActual.png`}
             alt="Secuoya Logo"
             className="w-full h-auto"
           />

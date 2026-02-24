@@ -1,5 +1,6 @@
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // ← agrega esto
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function Header() {
     { name: 'Casos de Éxito', href: '#casos-exito' },
     { name: 'Nosotros', href: '#nosotros' },
     { name: 'Contacto', href: '#contacto' },
-    { name: 'Curso IA', href: '/curso-ia' },
+    { name: 'Curso IA', href: '/curso-ia', isRoute: true }, // ← marca esta como ruta
   ];
 
   return (
@@ -18,32 +19,35 @@ export default function Header() {
       <nav className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <img
-              src="/logoAct.png"
-              alt="Secuoya"
-              className="h-10 w-auto object-contain"
-            />
+            <img src={`${import.meta.env.BASE_URL}logoActual.png`} alt="Secuoya" className="h-10 w-auto object-contain" />
           </div>
 
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              {menuItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-300"
-                >
-                  {item.name}
-                </a>
-              ))}
+              {menuItems.map((item) =>
+                item.isRoute ? (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-300"
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors duration-300"
+                  >
+                    {item.name}
+                  </a>
+                )
+              )}
             </div>
           </div>
 
           <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 p-2"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-700 hover:text-blue-600 p-2">
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -53,16 +57,27 @@ export default function Header() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 animate-slide-down">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            {menuItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="block text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 text-base font-medium transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </a>
-            ))}
+            {menuItems.map((item) =>
+              item.isRoute ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="block text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 text-base font-medium transition-colors duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="block text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 text-base font-medium transition-colors duration-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              )
+            )}
           </div>
         </div>
       )}

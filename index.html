@@ -2,12 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/logoAct.png" />
+    <link rel="icon" type="image/png" href="/secuoya-paginaweb-dev/logoActual.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Secuoya Strategy & IA</title>
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Secuoya Strategy & IA" />
-    <meta property="og:image" content="/logoAct.png" />
+    <meta property="og:image" content="/logoActual.png"/>
+
+    <script>
+      const redirect = sessionStorage.getItem('redirect');
+      if (redirect) {
+        sessionStorage.removeItem('redirect');
+        window.history.replaceState(null, '', redirect);
+      }
+    </script>
+
   </head>
   <body>
     <div id="root"></div>

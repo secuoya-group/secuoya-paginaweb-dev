@@ -104,7 +104,7 @@ export default function CourseRegistration() {
             <div className="flex items-center justify-between">
               <a href="/" className="flex items-center gap-2">
                 <img
-                  src="/logoAct.png"
+                  src={`${import.meta.env.BASE_URL}logoActual.png`}
                   alt="Secuoya"
                   className="h-12 w-auto"
                 />
@@ -175,7 +175,7 @@ export default function CourseRegistration() {
                               <div className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-blue-500 border-opacity-30 overflow-hidden h-full flex items-center justify-center">
 
                                   <img
-                                      src="/HombreGestionando.jpg"
+                                      src={`${import.meta.env.BASE_URL}HombreGestionando.jpg`}
                                       alt="Inteligencia Artificial"
                                       className="w-full h-full object-cover"
                                   />
@@ -277,7 +277,7 @@ export default function CourseRegistration() {
                           value={formData.phone}
                           onChange={handleChange}
                           className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                          placeholder="+34 900 123 456"
+                          placeholder="+57 319 123 456"
                           required
                         />
                       </div>

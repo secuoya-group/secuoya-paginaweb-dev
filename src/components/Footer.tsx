@@ -16,7 +16,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <img
-              src="/logoAct.png"
+              src={`${import.meta.env.BASE_URL}logoActual.png`}
               alt="Secuoya"
               className="h-20 w-auto mb-4 brightness-0 invert"
             />
